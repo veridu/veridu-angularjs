@@ -57,7 +57,6 @@ Features
 --------
  - Query [endpoints](https://veridu.com/wiki/Category:Endpoint) easily
  - Highly configurable
- - Not opinionated
 
 Examples
 --------
@@ -94,4 +93,4 @@ $ karma start
 Copyright and license
 ---------------------
 
-Copyright (c) 2013/2014 - Veridu Ltd - [http://veridu.com](veridu.com)
+Copyright (c) 2016 - Veridu Ltd - [http://veridu.com](veridu.com)
