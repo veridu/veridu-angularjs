@@ -1,0 +1,27 @@
+{
+  "name": "veridu-angularjs-sdk",
+  "version": "1.0.0",
+  "description": "Veridu SDK",
+  "main": "dist/angularjs-veridu-sdk.min.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "keywords": [
+    "veridu",
+    "sdk",
+    "identity"
+  ],
+  "author": "Veridu <rafael@veridu.com> (https://www.veridu.com)",
+  "license": "ISC",
+  "devDependencies": {
+    "angular": "^1.5.0",
+    "angular-mocks": "^1.5.0",
+    "gulp": "^3.9.1",
+    "gulp-batch": "^1.0.5",
+    "gulp-clean": "^0.3.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.2",
+    "gulp-watch": "^4.3.5"
+  }
+}
