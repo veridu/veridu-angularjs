@@ -35,7 +35,6 @@ function AppCtrl(Veridu) {
 
     // fetches user profile
     function getProfile() {
-        
         Veridu.API.fetch('GET', 'profile/' + Veridu.cfg.user).then(
             function success(response) {
                 vm.profile = response.data;
@@ -45,17 +44,14 @@ function AppCtrl(Veridu) {
             }
         );
     }
-
 }
-
-
 ```
 
 
 
 Code documentation
 ------------------
-Latest code documentation can be found at [http://veridu.github.io/veridu-php](http://veridu.github.io/veridu-php).
+Latest code documentation can be found at
 
 Features
 --------
@@ -69,7 +65,7 @@ Examples of basic usage are located in the examples/ directory.
 
 Bugs and feature requests
 -------------------------
-Have a bug or a feature request? [Please open a new issue](https://github.com/veridu/veridu-php/issues).
+Have a bug or a feature request? [Please open a new issue](https://github.com/veridu/veridu-angularjs/issues).
 Before opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/necolas/issue-guidelines), written by [Nicolas Gallagher](https://github.com/necolas/).
 
 Versioning
@@ -90,7 +86,10 @@ For more information on SemVer, please visit [http://semver.org/](http://semver.
 
 Tests
 -----
-To run the tests, you must install dependencies with `composer install --dev`.
+To run the tests, you must first install [Karma](https://karma-runner.github.io/0.13/index.html) globally, then install dependencies with `npm install --dev` then:
+````bash
+$ karma start
+````
 
 Copyright and license
 ---------------------

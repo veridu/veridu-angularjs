@@ -1,6 +1,7 @@
 {
   "name": "veridu-angularjs-sdk",
   "version": "1.0.0",
+  "repository": "https://github.com/veridu/veridu-angularjs",
   "description": "Veridu SDK",
   "main": "dist/angularjs-veridu-sdk.min.js",
   "scripts": {
@@ -12,7 +13,7 @@
     "identity"
   ],
   "author": "Veridu <rafael@veridu.com> (https://www.veridu.com)",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "angular": "^1.5.0",
     "angular-mocks": "^1.5.0",

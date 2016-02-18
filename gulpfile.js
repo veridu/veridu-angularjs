@@ -9,7 +9,7 @@ var batch = require("gulp-batch");
 gulp.task('default', ['clean'], function() {
     return gulp.src('src/*.js')
         .pipe(uglify({
-            mangle: false
+            // mangle: false
         }))
         .pipe(rename('angularjs-veridu-sdk.min.js'))
         .pipe(gulp.dest('./dist/'))
