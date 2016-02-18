@@ -63,7 +63,7 @@ function AppCtrl(Veridu) {
 
 Code documentation
 ------------------
-Latest code documentation can be found at
+Latest code documentation can be found [here](http://htmlpreview.github.io/?https://github.com/veridu/veridu-angularjs/blob/master/doc/src/angularjs-veridu-sdk.html)
 
 Features
 --------
