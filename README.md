@@ -5,11 +5,26 @@ Installation
 ------------
 This library can be found on [npm](https://www.npmjs.com/package/veridu-angularjs-sdk).
 
-The recommended way to install this is through npm:
+The recommended way to install this is through [npm](https://www.npmjs.com/package/veridu-angularjs-sdk):
 
 ```bash
 $ npm install --save veridu-angularjs-sdk
 ```
+
+Installing in your project
+------------
+
+Via scripts:
+````html
+<script src="js/angular.js" charset="utf-8"></script>
+<script src="js/angularjs-veridu-sdk/dist/angularjs-veridu-sdk.min.js" charset="utf-8"></script>
+````
+
+Via [browserify](http://browserify.org/):
+````javascript
+require('angular');
+require('veridu-angularjs-sdk');
+````
 
 Usage
 ------------
@@ -30,7 +45,6 @@ angular.module('YourApp').config(function (VeriduProvider){
 AppCtrl.$inject = ['Veridu'];
 function AppCtrl(Veridu) {
     var vm = this;
-
     vm.getProfile = getProfile;
 
     // fetches user profile
@@ -46,8 +60,6 @@ function AppCtrl(Veridu) {
     }
 }
 ```
-
-
 
 Code documentation
 ------------------

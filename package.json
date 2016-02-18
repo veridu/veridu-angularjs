@@ -1,6 +1,6 @@
 {
   "name": "veridu-angularjs-sdk",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": "https://github.com/veridu/veridu-angularjs",
   "description": "Veridu SDK",
   "main": "dist/angularjs-veridu-sdk.min.js",
@@ -14,8 +14,11 @@
   ],
   "author": "Veridu <rafael@veridu.com> (https://www.veridu.com)",
   "license": "MIT",
+  "dependencies": {
+      "angular": ">=1.4.0"
+  },
   "devDependencies": {
-    "angular": "^1.5.0",
+    "angular": ">=1.4.0",
     "angular-mocks": "^1.5.0",
     "gulp": "^3.9.1",
     "gulp-batch": "^1.0.5",
