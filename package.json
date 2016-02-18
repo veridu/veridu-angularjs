@@ -1,6 +1,6 @@
 {
   "name": "veridu-angularjs-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "repository": "https://github.com/veridu/veridu-angularjs",
   "description": "Veridu SDK",
   "main": "dist/angularjs-veridu-sdk.min.js",
