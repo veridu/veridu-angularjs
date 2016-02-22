@@ -1,0 +1,109 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'publish', '-f' ]
+2 info using npm@3.3.12
+3 info using node@v5.4.1
+4 warn using --force I sure hope you know what you are doing.
+5 verbose publish [ '.' ]
+6 silly cache add args [ '.', null ]
+7 verbose cache add spec .
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: '.',
+8 silly cache add   scope: null,
+8 silly cache add   name: null,
+8 silly cache add   rawSpec: '.',
+8 silly cache add   spec: '/home/dev/Projects/veridu/SDKs/angular-js',
+8 silly cache add   type: 'directory' }
+9 verbose addLocalDirectory /home/dev/.npm/veridu-angularjs-sdk/1.0.0/package.tgz not in flight; packing
+10 info lifecycle veridu-angularjs-sdk@1.0.0~prepublish: veridu-angularjs-sdk@1.0.0
+11 silly lifecycle veridu-angularjs-sdk@1.0.0~prepublish: no script for prepublish, continuing
+12 verbose tar pack [ '/home/dev/.npm/veridu-angularjs-sdk/1.0.0/package.tgz',
+12 verbose tar pack   '/home/dev/Projects/veridu/SDKs/angular-js' ]
+13 verbose tarball /home/dev/.npm/veridu-angularjs-sdk/1.0.0/package.tgz
+14 verbose folder /home/dev/Projects/veridu/SDKs/angular-js
+15 verbose addLocalTarball adding from inside cache /home/dev/.npm/veridu-angularjs-sdk/1.0.0/package.tgz
+16 silly cache afterAdd veridu-angularjs-sdk@1.0.0
+17 verbose afterAdd /home/dev/.npm/veridu-angularjs-sdk/1.0.0/package/package.json not in flight; writing
+18 verbose afterAdd /home/dev/.npm/veridu-angularjs-sdk/1.0.0/package/package.json written
+19 silly publish { name: 'veridu-angularjs-sdk',
+19 silly publish   version: '1.0.0',
+19 silly publish   repository:
+19 silly publish    { type: 'git',
+19 silly publish      url: 'git+https://github.com/veridu/veridu-angularjs.git' },
+19 silly publish   description: 'Veridu SDK',
+19 silly publish   main: 'dist/veridu-angularjs-sdk.min.js',
+19 silly publish   scripts: { test: 'karma start' },
+19 silly publish   keywords: [ 'veridu', 'sdk', 'identity' ],
+19 silly publish   author:
+19 silly publish    { name: 'Veridu',
+19 silly publish      email: 'rafael@veridu.com',
+19 silly publish      url: 'https://www.veridu.com' },
+19 silly publish   license: 'MIT',
+19 silly publish   dependencies: { angular: '>=1.4.0' },
+19 silly publish   devDependencies:
+19 silly publish    { angular: '>=1.4.0',
+19 silly publish      'angular-mocks': '^1.5.0',
+19 silly publish      gulp: '^3.9.1',
+19 silly publish      'gulp-batch': '^1.0.5',
+19 silly publish      'gulp-clean': '^0.3.1',
+19 silly publish      'gulp-notify': '^2.2.0',
+19 silly publish      'gulp-rename': '^1.2.2',
+19 silly publish      'gulp-uglify': '^1.5.2',
+19 silly publish      'gulp-watch': '^4.3.5' },
+19 silly publish   readme: 'Veridu AngularJS SDK\n==============\n\nInstallation\n------------\nThis library can be found on [npm](https://www.npmjs.com/package/veridu-angularjs-sdk).\n\nThe recommended way to install this is through [npm](https://www.npmjs.com/package/veridu-angularjs-sdk):\n\n```bash\n$ npm install --save veridu-angularjs-sdk\n```\n\nInstalling in your project\n------------\n\nVia scripts:\n````html\n<script src="js/angular/angular.js" charset="utf-8"></script>\n<script src="js/veridu-angularjs-sdk/dist/veridu-angularjs-sdk.min.js" charset="utf-8"></script>\n````\n\nVia [browserify](http://browserify.org/):\n````javascript\nrequire(\'angular\');\nrequire(\'veridu-angularjs-sdk\');\n````\n\nUsage\n------------\n```javascript\n// On your App initialization\nangular.module(\'YourApp\', [\n    \'veridu.angularjs.sdk\'\n]);\n\n// On your App configuration phase\nangular.module(\'YourApp\').config(function (VeriduProvider){\n    VeriduProvider.client = \'YOUR_CLIENT_ID\';\n    VeriduProvider.user = \'YOUR_USERNAME\';\n    VeriduProvider.session = \'YOUR_VERIDU_SESSION\';\n})\n\n// On a controller\nAppCtrl.$inject = [\'Veridu\'];\nfunction AppCtrl(Veridu) {\n    var vm = this;\n    vm.getProfile = getProfile;\n\n    // fetches user profile\n    function getProfile() {\n        Veridu.API.fetch(\'GET\', \'profile/\' + Veridu.cfg.user).then(\n            function success(response) {\n                vm.profile = response.data;\n            },\n            function error() {\n                // error handling\n            }\n        );\n    }\n}\n```\n\nCode documentation\n------------------\nLatest code documentation can be found [here](http://htmlpreview.github.io/?https://github.com/veridu/veridu-angularjs/blob/master/doc/src/veridu-angularjs-sdk.html).\n\nFeatures\n--------\n - Query [endpoints](https://veridu.com/wiki/Category:Endpoint) easily\n - Highly configurable\n\nExamples\n--------\nExamples of basic usage are located in the examples/ directory.\n\nBugs and feature requests\n-------------------------\nHave a bug or a feature request? [Please open a new issue](https://github.com/veridu/veridu-angularjs/issues).\nBefore opening any issue, please search for existing issues and read the [Issue Guidelines](https://github.com/necolas/issue-guidelines), written by [Nicolas Gallagher](https://github.com/necolas/).\n\nVersioning\n----------\nThis SDK will be maintained under the Semantic Versioning guidelines as much as possible.\n\nReleases will be numbered with the following format:\n\n`<major>.<minor>.<patch>`\n\nAnd constructed with the following guidelines:\n\n* Breaking backward compatibility bumps the major (and resets the minor and patch)\n* New additions without breaking backward compatibility bumps the minor (and resets the patch)\n* Bug fixes and misc changes bumps the patch\n\nFor more information on SemVer, please visit [http://semver.org/](http://semver.org/).\n\nTests\n-----\nTo run the tests, you must first install [Karma](https://karma-runner.github.io/0.13/index.html) globally, then install dependencies with `npm install --dev` then:\n````bash\n$ karma start\n````\n\nCopyright and license\n---------------------\n\nCopyright (c) 2016 - Veridu Ltd - [http://veridu.com](veridu.com)\n',
+19 silly publish   readmeFilename: 'README.md',
+19 silly publish   gitHead: '801ab09975ad031fadd737ad11f286f72366a574',
+19 silly publish   bugs: { url: 'https://github.com/veridu/veridu-angularjs/issues' },
+19 silly publish   homepage: 'https://github.com/veridu/veridu-angularjs#readme',
+19 silly publish   _id: 'veridu-angularjs-sdk@1.0.0',
+19 silly publish   _shasum: 'ab664ade344d4fe2fffa590ed6d3ca1433718bfd',
+19 silly publish   _from: '.' }
+20 verbose getPublishConfig undefined
+21 silly mapToRegistry name veridu-angularjs-sdk
+22 silly mapToRegistry using default registry
+23 silly mapToRegistry registry https://registry.npmjs.org/
+24 silly mapToRegistry uri https://registry.npmjs.org/veridu-angularjs-sdk
+25 verbose publish registryBase https://registry.npmjs.org/
+26 silly publish uploading /home/dev/.npm/veridu-angularjs-sdk/1.0.0/package.tgz
+27 verbose request uri https://registry.npmjs.org/veridu-angularjs-sdk
+28 verbose request sending authorization for write operation
+29 info attempt registry request try #1 at 5:36:58 PM
+30 verbose request using bearer token for auth
+31 verbose request id 40b61dd73567ea2a
+32 http request PUT https://registry.npmjs.org/veridu-angularjs-sdk
+33 http 403 https://registry.npmjs.org/veridu-angularjs-sdk
+34 verbose headers { 'content-type': 'application/json',
+34 verbose headers   'cache-control': 'max-age=300',
+34 verbose headers   'content-length': '95',
+34 verbose headers   'accept-ranges': 'bytes',
+34 verbose headers   date: 'Mon, 22 Feb 2016 20:37:00 GMT',
+34 verbose headers   via: '1.1 varnish',
+34 verbose headers   connection: 'keep-alive',
+34 verbose headers   'x-served-by': 'cache-atl6245-ATL',
+34 verbose headers   'x-cache': 'MISS',
+34 verbose headers   'x-cache-hits': '0',
+34 verbose headers   'x-timer': 'S1456173419.207601,VS0,VE1465' }
+35 verbose request invalidating /home/dev/.npm/registry.npmjs.org/veridu-angularjs-sdk on PUT
+36 error publish Failed PUT 403
+37 verbose stack Error: "You cannot publish over the previously published version 1.0.0." : veridu-angularjs-sdk
+37 verbose stack     at makeError (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+37 verbose stack     at CachingRegistryClient.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+37 verbose stack     at Request._callback (/usr/local/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+37 verbose stack     at Request.self.callback (/usr/local/lib/node_modules/npm/node_modules/request/request.js:198:22)
+37 verbose stack     at emitTwo (events.js:87:13)
+37 verbose stack     at Request.emit (events.js:172:7)
+37 verbose stack     at Request.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+37 verbose stack     at emitOne (events.js:82:20)
+37 verbose stack     at Request.emit (events.js:169:7)
+37 verbose stack     at IncomingMessage.<anonymous> (/usr/local/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+38 verbose statusCode 403
+39 verbose pkgid veridu-angularjs-sdk
+40 verbose cwd /home/dev/Projects/veridu/SDKs/angular-js
+41 error Linux 3.19.0-49-generic
+42 error argv "/usr/local/bin/node" "/usr/local/bin/npm" "publish" "-f"
+43 error node v5.4.1
+44 error npm  v3.3.12
+45 error code E403
+46 error "You cannot publish over the previously published version 1.0.0." : veridu-angularjs-sdk
+47 error If you need help, you may report this error at:
+47 error     <https://github.com/npm/npm/issues>
+48 verbose exit [ 1, true ]
