@@ -16,7 +16,7 @@ Installing in your project
 
 Via scripts:
 ````html
-<script src="js/angular.js" charset="utf-8"></script>
+<script src="js/angular/angular.js" charset="utf-8"></script>
 <script src="js/veridu-angularjs-sdk/dist/veridu-angularjs-sdk.min.js" charset="utf-8"></script>
 ````
 
