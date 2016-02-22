@@ -2,7 +2,7 @@
     'use strict';
 
     // ###### Creating module
-    var module = angular.module('veridu.angular.sdk', []);
+    var module = angular.module('veridu.angularjs.sdk', []);
     // ###### Creating provider
     module.provider('Veridu', function VeriduProvider() {
         var client,

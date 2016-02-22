@@ -17,7 +17,7 @@ module.exports = function(config) {
         files: [
             'node_modules/angular/angular.js',
             'node_modules/angular-mocks/angular-mocks.js',
-            'dist/angularjs-veridu-sdk.min.js',
+            'dist/veridu-angularjs-sdk.min.js',
             'test/*.spec.js'
         ],
 

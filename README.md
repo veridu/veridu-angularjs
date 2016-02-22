@@ -17,7 +17,7 @@ Installing in your project
 Via scripts:
 ````html
 <script src="js/angular.js" charset="utf-8"></script>
-<script src="js/angularjs-veridu-sdk/dist/angularjs-veridu-sdk.min.js" charset="utf-8"></script>
+<script src="js/veridu-angularjs-sdk/dist/veridu-angularjs-sdk.min.js" charset="utf-8"></script>
 ````
 
 Via [browserify](http://browserify.org/):
@@ -31,7 +31,7 @@ Usage
 ```javascript
 // On your App initialization
 angular.module('YourApp', [
-    'veridu-angularjs-sdk'
+    'veridu.angularjs.sdk'
 ]);
 
 // On your App configuration phase
@@ -63,7 +63,7 @@ function AppCtrl(Veridu) {
 
 Code documentation
 ------------------
-Latest code documentation can be found [here](http://htmlpreview.github.io/?https://github.com/veridu/veridu-angularjs/blob/master/doc/src/angularjs-veridu-sdk.html).
+Latest code documentation can be found [here](http://htmlpreview.github.io/?https://github.com/veridu/veridu-angularjs/blob/master/doc/src/veridu-angularjs-sdk.html).
 
 Features
 --------

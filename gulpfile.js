@@ -11,7 +11,7 @@ gulp.task('default', ['clean'], function() {
         .pipe(uglify({
             // mangle: false
         }))
-        .pipe(rename('angularjs-veridu-sdk.min.js'))
+        .pipe(rename('veridu-angularjs-sdk.min.js'))
         .pipe(gulp.dest('./dist/'))
         .pipe(notify("Javascript minified! Thanks =]"));
 });

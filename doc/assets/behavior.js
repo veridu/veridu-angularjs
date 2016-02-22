@@ -25,11 +25,11 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "foldPrefix": "^",
               "name": "JavaScript"
             },
-            "sourcePath": "/home/dev/Projects/veridu/SDKs/angular-js/src/angularjs-veridu-sdk.js",
-            "projectPath": "src/angularjs-veridu-sdk.js",
-            "targetPath": "src/angularjs-veridu-sdk",
-            "pageTitle": "src/angularjs-veridu-sdk",
-            "title": "angularjs-veridu-sdk"
+            "sourcePath": "/home/dev/Projects/veridu/SDKs/angular-js/src/veridu-angularjs-sdk.js",
+            "projectPath": "src/veridu-angularjs-sdk.js",
+            "targetPath": "src/veridu-angularjs-sdk",
+            "pageTitle": "src/veridu-angularjs-sdk",
+            "title": "veridu-angularjs-sdk"
           },
           "depth": 2,
           "outline": [
