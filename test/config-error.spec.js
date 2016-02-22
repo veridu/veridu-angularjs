@@ -6,7 +6,7 @@ describe('configuration error test', function() {
 
     beforeEach(function () {
 
-        angular.module('testApp', ['veridu.angular.sdk'])
+        angular.module('testApp', ['veridu.angularjs.sdk'])
             .config(function (VeriduProvider) {
                 // not configuring should throw errors to console
                 // VeriduProvider.client = 'client';
@@ -18,7 +18,7 @@ describe('configuration error test', function() {
             });
 
         // Initialize myApp injector
-        module('veridu.angular.sdk', 'testApp');
+        module('veridu.angularjs.sdk', 'testApp');
 
         inject(function (_$log_) {
             log = _$log_

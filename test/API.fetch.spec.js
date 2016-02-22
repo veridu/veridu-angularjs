@@ -5,7 +5,7 @@ describe('API Request', function() {
 
     beforeEach(function () {
 
-        angular.module('testApp', ['veridu.angular.sdk'])
+        angular.module('testApp', ['veridu.angularjs.sdk'])
             .config(function (VeriduProvider) {
                 VeriduProvider.client = 'client';
                 VeriduProvider.user = 'user';
@@ -16,7 +16,7 @@ describe('API Request', function() {
             });
 
         // Initialize myApp injector
-        module('veridu.angular.sdk', 'testApp');
+        module('veridu.angularjs.sdk', 'testApp');
 
         inject(function ($injector) {
             $http = $injector.get('$http');

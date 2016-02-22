@@ -21,7 +21,7 @@
         *   *other parameters are injected automatically*
         *
         */
-        var service = function(client, user, session, lang, API_VERSION, $httpParamSerializerJQLike, $http, $log){
+        var Veridu = function(client, user, session, lang, API_VERSION, $httpParamSerializerJQLike, $http, $log){
             var vm = this;
             vm.user = {};
             vm.Util = new Util();
@@ -181,18 +181,18 @@
 
         }
 
-        service.$get = ['$http', '$log', '$httpParamSerializerJQLike', function VeriduFactory($http, $log, $httpParamSerializerJQLike) {
-            return new service(this.client, this.user, this.session, this.lang, this.API_VERSION, $httpParamSerializerJQLike, $http, $log);
+        Veridu.$get = ['$http', '$log', '$httpParamSerializerJQLike', function VeriduFactory($http, $log, $httpParamSerializerJQLike) {
+            return new Veridu(this.client, this.user, this.session, this.lang, this.API_VERSION, $httpParamSerializerJQLike, $http, $log);
         }];
 
-        return service;
+        return Veridu;
     });
 
     if (typeof module === 'object' && typeof module.exports === 'object') {
-        module.exports = 'angular-veridu-sdk';
+        module.exports = 'veridu-angularjs-sdk';
     } else if (typeof define === 'function' && define.amd) {
         define([], function () {
-            return 'angular-veridu-sdk';
+            return 'veridu-angularjs-sdk';
         });
     }
 }());
