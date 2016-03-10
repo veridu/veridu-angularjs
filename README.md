@@ -6,9 +6,12 @@ Installation
 This library can be found on [npm](https://www.npmjs.com/package/veridu-angularjs-sdk).
 
 The recommended way to install this is through [npm](https://www.npmjs.com/package/veridu-angularjs-sdk):
-
 ```bash
 $ npm install --save veridu-angularjs-sdk
+```
+Or through [bower](http://bower.io/):
+```bash
+$ bower install --save veridu-angularjs-sdk
 ```
 
 Installing in your project
@@ -37,8 +40,6 @@ angular.module('YourApp', [
 // On your App configuration phase
 angular.module('YourApp').config(function (VeriduProvider){
     VeriduProvider.client = 'YOUR_CLIENT_ID';
-    VeriduProvider.user = 'YOUR_USERNAME';
-    VeriduProvider.session = 'YOUR_VERIDU_SESSION';
 })
 
 // On a controller
@@ -46,6 +47,7 @@ AppCtrl.$inject = ['Veridu'];
 function AppCtrl(Veridu) {
     var vm = this;
     vm.getProfile = getProfile;
+    vm.login = login;
 
     // fetches user profile
     function getProfile() {
@@ -58,8 +60,22 @@ function AppCtrl(Veridu) {
             }
         );
     }
+
+    // Facebook SSO
+    function login() {
+        return Veridu.SSO.login('facebook');
+    }
+
 }
 ```
+Facebook SSO:
+````html
+    <button type="button" ng-click="App.login()"></button>
+````
+
+Examples
+--------
+Examples of basic usage are located in the file `examples/index.html`. It's highly recommended to take a look at it.
 
 Code documentation
 ------------------
@@ -67,12 +83,9 @@ Latest code documentation can be found [here](http://htmlpreview.github.io/?http
 
 Features
 --------
- - Query [endpoints](https://veridu.com/wiki/Category:Endpoint) easily
- - Highly configurable
-
-Examples
---------
-Examples of basic usage are located in the examples/ directory.
+- SSO in minutes
+- Query [endpoints](https://veridu.com/wiki/Category:Endpoint) easily
+- Highly configurable
 
 Bugs and feature requests
 -------------------------
@@ -105,4 +118,4 @@ $ karma start
 Copyright and license
 ---------------------
 
-Copyright (c) 2016 - Veridu Ltd - [http://veridu.com](veridu.com)
+Copyright © 2016 - Veridu Ltd - [http://veridu.com](veridu.com)

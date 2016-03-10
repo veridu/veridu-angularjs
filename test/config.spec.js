@@ -8,8 +8,6 @@ describe('configuration test', function() {
         angular.module('testApp', ['veridu.angularjs.sdk'])
             .config(function (VeriduProvider) {
                 VeriduProvider.client = 'client';
-                VeriduProvider.user = 'user';
-                VeriduProvider.session = 'session';
                 VeriduProvider.lang = 'pt-BR';
                 VeriduProvider.API_VERSION = 'rafael';
             })
@@ -32,18 +30,6 @@ describe('configuration test', function() {
         expect(sdk.cfg.client).toEqual('client2');
     });
 
-    it('should have configured public user', function () {
-        expect(sdk.cfg.user).toEqual('user');
-        sdk.cfg.user = 'user2';
-        expect(sdk.cfg.user).toEqual('user2');
-    });
-
-    it('should have configured public session', function () {
-        expect(sdk.cfg.session).toEqual('session');
-        sdk.cfg.session = 'session2';
-        expect(sdk.cfg.session).toEqual('session2');
-    });
-
     it('should have configured public language', function () {
         expect(sdk.cfg.lang).toEqual('pt-BR');
         sdk.cfg.lang = 'en-us';
@@ -64,9 +50,9 @@ describe('configuration test', function() {
     });
 
     it('should have protected WIDGET_URL', function () {
-        expect(sdk.cfg.URL.widget).toEqual('https://widget.veridu.com/');
+        expect(sdk.cfg.URL.widget).toEqual('https://widget.veridu.com');
         sdk.cfg.URL.widget = 'abc';
-        expect(sdk.cfg.URL.widget).toEqual('https://widget.veridu.com/');
+        expect(sdk.cfg.URL.widget).toEqual('https://widget.veridu.com');
     });
 
 

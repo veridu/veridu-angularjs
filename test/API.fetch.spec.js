@@ -9,7 +9,7 @@ describe('API Request', function() {
             .config(function (VeriduProvider) {
                 VeriduProvider.client = 'client';
                 VeriduProvider.user = 'user';
-                VeriduProvider.session = 'session';
+                // VeriduProvider.session = 'session';
             })
             .run(function (Veridu) {
                 sdk = Veridu

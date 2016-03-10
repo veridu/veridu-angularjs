@@ -1,0 +1,24 @@
+{
+  "name": "veridu-angularjs-sdk",
+  "description": "Veridu AngularJS SDK",
+  "main": "dist/veridu-angularjs-sdk.min.js",
+  "authors": [
+    "Veridu <rafael@veridu.com> (https://www.veridu.com)"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "veridu",
+    "sdk",
+    "identity",
+    "sso"
+  ],
+  "homepage": "https://github.com/veridu/veridu-angularjs",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

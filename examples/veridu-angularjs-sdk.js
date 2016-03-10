@@ -1,0 +1,1 @@
+../src/veridu-angularjs-sdk.js

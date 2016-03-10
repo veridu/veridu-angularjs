@@ -52,59 +52,111 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             }, {
               "type": "heading",
               "data": {
-                "level": 6,
-                "title": "Constructor function(client, user, session, lang, API_VERSION)",
-                "slug": "constructor-functionclient-user-session-lang-api-version"
+                "level": 1,
+                "title": "Constructor",
+                "slug": "constructor"
               },
-              "depth": 6
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 4,
+                    "title": "Storage helper",
+                    "slug": "storage-helper"
+                  },
+                  "depth": 4
+                }
+              ]
             }, {
               "type": "heading",
               "data": {
-                "level": 6,
-                "title": "function apiFetch(method, resource, parameters)",
-                "slug": "function-apifetchmethod-resource-parameters"
+                "level": 1,
+                "title": "API Module functions",
+                "slug": "api-module-functions"
               },
-              "depth": 6
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "function API.fetch(method, resource, parameters)",
+                    "slug": "function-apifetchmethod-resource-parameters"
+                  },
+                  "depth": 6
+                }
+              ]
             }, {
               "type": "heading",
               "data": {
-                "level": 6,
-                "title": "function Util",
-                "slug": "function-util"
+                "level": 1,
+                "title": "SSO Module functions",
+                "slug": "sso-module-functions"
               },
-              "depth": 6
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "function SSO.login(provider)",
+                    "slug": "function-ssologinprovider"
+                  },
+                  "depth": 6
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "function SSO.logout()",
+                    "slug": "function-ssologout"
+                  },
+                  "depth": 6
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "function ssoPopulate(data)",
+                    "slug": "function-ssopopulatedata"
+                  },
+                  "depth": 6
+                }
+              ]
             }, {
               "type": "heading",
               "data": {
-                "level": 6,
-                "title": "Url Helpers(resource, params)",
-                "slug": "url-helpersresource-params"
+                "level": 1,
+                "title": "Util",
+                "slug": "util"
               },
-              "depth": 6
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 6,
-                "title": "function valid(args)",
-                "slug": "function-validargs"
-              },
-              "depth": 6
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 6,
-                "title": "function validate(prop, propName)",
-                "slug": "function-validateprop-propname"
-              },
-              "depth": 6
-            }, {
-              "type": "heading",
-              "data": {
-                "level": 6,
-                "title": "function getProviderUrl(provider)",
-                "slug": "function-getproviderurlprovider"
-              },
-              "depth": 6
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "Url Helpers(resource, params)",
+                    "slug": "url-helpersresource-params"
+                  },
+                  "depth": 6
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "function valid(args)",
+                    "slug": "function-validargs"
+                  },
+                  "depth": 6
+                }, {
+                  "type": "heading",
+                  "data": {
+                    "level": 2,
+                    "title": "Storage helper functions",
+                    "slug": "storage-helper-functions"
+                  },
+                  "depth": 2
+                }
+              ]
             }
           ]
         }

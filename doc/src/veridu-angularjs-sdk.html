@@ -2,41 +2,59 @@
 <span class="hljs-pi">    'use strict'</span>;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="creating-module">Creating module</h6></div></div></div><div class="segment"><div class="code"><div class="wrapper">    <span class="hljs-keyword">var</span> <span class="hljs-built_in">module</span> = angular.module(<span class="hljs-string">'veridu.angularjs.sdk'</span>, []);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="creating-provider">Creating provider</h6></div></div></div><div class="segment"><div class="code"><div class="wrapper">    <span class="hljs-built_in">module</span>.provider(<span class="hljs-string">'Veridu'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VeriduProvider</span>(<span class="hljs-params"></span>) </span>{
         <span class="hljs-keyword">var</span> client,
             user,
-            session;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="constructor-functionclient-user-session-lang-api-version">Constructor function(client, user, session, lang, API_VERSION)</h6>
+            session;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="constructor">Constructor</h1>
 <hr>
+<p>  function(client, user, session, lang, API_VERSION)</p>
 <ul>
-<li><em>string <strong>client</strong> client id </em></li>
+<li><em>string <strong>client</strong> aka. veridu_id</em> <strong>(required)</strong></li>
 <li><em>string <strong>user</strong> username</em></li>
 <li><em>string <strong>lang</strong> language, defaults to &#39;en-us&#39;</em></li>
 <li><p><em>string <strong>API_VERSION</strong> API version, defaults to &#39;0.3&#39;</em></p>
 <p>The user must configure the provider within the configuration phase of the angular app.
 <em>other parameters are injected automatically</em></p>
 </li>
-</ul></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">var</span> service = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">client, user, session, lang, API_VERSION, $httpParamSerializerJQLike, $http, $log</span>)</span>{
+</ul></div></div><div class="code"><div class="wrapper">        <span class="hljs-keyword">var</span> Veridu = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">client, lang, API_VERSION, user, session, $httpParamSerializerJQLike, $http, $log, $window, $rootScope</span>)</span>{
             <span class="hljs-keyword">var</span> vm = <span class="hljs-keyword">this</span>;
             vm.user = {};
-            vm.Util = <span class="hljs-keyword">new</span> Util();
-            vm.API = {
+            vm.Util = <span class="hljs-keyword">new</span> Util();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>API Module</p></div></div><div class="code"><div class="wrapper">            vm.API = {
                 fetch: apiFetch
+            };</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>SSO Module</p></div></div><div class="code"><div class="wrapper">            vm.SSO = {
+                login: login,
+                logout: logout
+            };</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h4 id="storage-helper">Storage helper</h4></div></div></div><div class="segment"><div class="code"><div class="wrapper">            <span class="hljs-keyword">var</span> Storage = {
+                setItem: setStorageItem,
+                removeItem: removeStorageItem,
+                getItem: getStorageItem
             };
+
+            init();
 
             <span class="hljs-keyword">if</span> (! valid(<span class="hljs-built_in">arguments</span>))
                 <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
 
-            vm.cfg = {
-                user: user,
-                client: client,
-                session: session,
-                lang: lang || <span class="hljs-string">'en-us'</span>,
-                get API_VERSION() { <span class="hljs-keyword">return</span> API_VERSION  || <span class="hljs-string">'0.3'</span>; },
-                get URL() {
-                    <span class="hljs-keyword">return</span> {
-                        api: <span class="hljs-string">'https://api.veridu.com/'</span>,
-                        widget: <span class="hljs-string">'https://widget.veridu.com/'</span>,
-                        assets: <span class="hljs-string">'https://assets.veridu.com/'</span>
+            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">init</span>(<span class="hljs-params"></span>) </span>{
+                vm.cfg = {
+                    user: user,
+                    client: client,
+                    session: session,
+                    lang: lang || <span class="hljs-string">'en-us'</span>,
+                    get API_VERSION() { <span class="hljs-keyword">return</span> API_VERSION || <span class="hljs-string">'0.3'</span>; },
+                    get URL() {
+                        <span class="hljs-keyword">return</span> {
+                            api: <span class="hljs-string">'https://api.veridu.com/'</span>,
+                            widget: <span class="hljs-string">'https://widget.veridu.com'</span>,
+                            assets: <span class="hljs-string">'https://assets.veridu.com/'</span>
+                        };
                     }
-                }
-            };</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-apifetchmethod-resource-parameters">function apiFetch(method, resource, parameters)</h6>
+                };
+
+                ssoPopulate(Storage.getItem(<span class="hljs-string">'veriduSSOData'</span>));</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>listens for SSO Logins</p></div></div><div class="code"><div class="wrapper">                $<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'message'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">evt</span>) </span>{
+                    <span class="hljs-keyword">if</span> (evt.origin == vm.cfg.URL.widget) {
+                        ssoPopulate(evt.data);
+                    }
+                });
+            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="api-module-functions">API Module functions</h1>
+<h6 id="function-apifetchmethod-resource-parameters">function API.fetch(method, resource, parameters)</h6>
 <hr>
 <p>  Fetches the API</p>
 <ul>
@@ -67,16 +85,60 @@
                     params: parameters || {},
                     paramSerializer: <span class="hljs-string">'$httpParamSerializerJQLike'</span>
                 });
-
-
-            };</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-util">function Util</h6>
+            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="sso-module-functions">SSO Module functions</h1>
+<h6 id="function-ssologinprovider">function SSO.login(provider)</h6>
 <hr>
-<p>  Helper functions</p></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Util</span> (<span class="hljs-params"></span>) </span>{
+<p>  Logins with given provider, emits &#39;veriduSSOLogin&#39; event when ssoPopulate is called</p>
+<ul>
+<li><em>string <strong>provider</strong> provider&#39;s name</em></li>
+</ul></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">login</span>(<span class="hljs-params">provider</span>) </span>{
+                <span class="hljs-keyword">if</span> (vm.cfg.session) {
+                    $log.error(<span class="hljs-string">'User already signed! Logout if you want to access via another SSO provider'</span>);
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+                }
+
+                <span class="hljs-built_in">window</span>.open(vm.cfg.URL.widget + <span class="hljs-string">'/'</span> + vm.cfg.API_VERSION +<span class="hljs-string">'/sso/login/'</span>+ provider +<span class="hljs-string">'/'</span>+ vm.cfg.client +<span class="hljs-string">'?language='</span> + vm.cfg.lang + <span class="hljs-string">'&amp;mobile=true&amp;session=&amp;nonce=nonce&amp;redirect='</span> + $<span class="hljs-built_in">window</span>.location.toString(), <span class="hljs-string">'sso'</span>, <span class="hljs-string">'width=500,height=500'</span>);
+            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-ssologout">function SSO.logout()</h6>
+<hr>
+<p>  Logs out and emits logout event</p></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">logout</span>(<span class="hljs-params"></span>) </span>{
+                Storage.removeItem(<span class="hljs-string">'veriduSSOData'</span>);
+                $rootScope.$emit(<span class="hljs-string">'veriduSSOLogout'</span>, {cfg: vm.cfg, user: vm.user});
+
+                <span class="hljs-keyword">delete</span> vm.cfg.session;
+                <span class="hljs-keyword">delete</span> vm.cfg.user;
+                <span class="hljs-keyword">delete</span> vm.SSO.provider;
+                <span class="hljs-keyword">delete</span> vm.user.name;
+                <span class="hljs-keyword">delete</span> vm.user.email;
+
+                <span class="hljs-keyword">if</span> (! $rootScope.$$phase)
+                    $rootScope.$apply();
+
+            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-ssopopulatedata">function ssoPopulate(data)</h6>
+<hr>
+<p>  Populates the Provider, emits &#39;veriduSSOLogin&#39; event</p></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">ssoPopulate</span>(<span class="hljs-params">data</span>) </span>{
+                <span class="hljs-keyword">if</span> (! data)
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+                <span class="hljs-keyword">try</span> {
+                    data = <span class="hljs-keyword">typeof</span> data == <span class="hljs-string">'string'</span> ? <span class="hljs-built_in">JSON</span>.parse(data) : data;
+                    vm.cfg.session = data.veridu_session;
+                    vm.cfg.user = data.veridu_id;
+                    vm.SSO.provider = data.veridu_provider;
+                    vm.user.name = data.veridu_name;
+                    vm.user.email = data.veridu_email;
+                    Storage.setItem(<span class="hljs-string">'veriduSSOData'</span>, data);</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>apllies only if an apply is not ongoing</p></div></div><div class="code"><div class="wrapper">                    <span class="hljs-keyword">if</span> (! $rootScope.$$phase)
+                        $rootScope.$apply();</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><p>emits event</p></div></div><div class="code"><div class="wrapper">                    $rootScope.$emit(<span class="hljs-string">'veriduSSOLogin'</span>, data);
+
+                } <span class="hljs-keyword">catch</span> (e) {
+                    $log.error(<span class="hljs-string">'Error parsing API response'</span>);
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+                }
+            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h1 id="util">Util</h1>
+<hr>
+<p>  Url helper functions</p></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Util</span> (<span class="hljs-params"></span>) </span>{
                 <span class="hljs-keyword">this</span>.buildUrl = buildUrl;
                 <span class="hljs-keyword">this</span>.apiUrl = apiUrl;
                 <span class="hljs-keyword">this</span>.widgetUrl = widgetUrl;
-                <span class="hljs-keyword">this</span>.assetsUrl = assetsUrl;
-                <span class="hljs-keyword">this</span>.getProviderUrl = getProviderUrl;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="url-helpersresource-params">Url Helpers(resource, params)</h6>
+                <span class="hljs-keyword">this</span>.assetsUrl = assetsUrl;</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="url-helpersresource-params">Url Helpers(resource, params)</h6>
 <hr>
 <p>  Creates a route to the chosen endpoint API, assets or widget.</p>
 <ul>
@@ -89,7 +151,7 @@
                     <span class="hljs-keyword">return</span> buildUrl(vm.cfg.URL.assets + vm.cfg.API_VERSION + <span class="hljs-string">'/'</span> + resource, params);
                 }
                 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">widgetUrl</span>(<span class="hljs-params">resource, params</span>) </span>{
-                    <span class="hljs-keyword">return</span> buildUrl(vm.cfg.URL.widget + vm.cfg.API_VERSION + <span class="hljs-string">'/'</span> + resource + <span class="hljs-string">'/'</span>, params);
+                    <span class="hljs-keyword">return</span> buildUrl(vm.cfg.URL.widget + <span class="hljs-string">'/'</span> + vm.cfg.API_VERSION + <span class="hljs-string">'/'</span> + resource + <span class="hljs-string">'/'</span>, params);
                 }
 
                 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildUrl</span>(<span class="hljs-params">url, params</span>) </span>{
@@ -107,62 +169,45 @@
 
             }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-validargs">function valid(args)</h6>
 <hr>
-<p>  Check if the injected Provider has the required arguments</p>
-<ul>
-<li><em>arguments <strong>args</strong> All the arguments that the provider has been called with</em></li>
-</ul></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">valid</span>(<span class="hljs-params">args</span>) </span>{
-                <span class="hljs-keyword">var</span> v = <span class="hljs-literal">true</span>;
-
-                v = validate(args[<span class="hljs-number">0</span>], <span class="hljs-string">'client'</span>) &amp;&amp; v;
-                v = validate(args[<span class="hljs-number">1</span>], <span class="hljs-string">'user'</span>) &amp;&amp; v;
-                v = validate(args[<span class="hljs-number">2</span>], <span class="hljs-string">'session'</span>) &amp;&amp; v;
-                v = validate(args[<span class="hljs-number">3</span>], <span class="hljs-string">'lang'</span>) &amp;&amp; v;
-                v = validate(args[<span class="hljs-number">4</span>], <span class="hljs-string">'API_VERSION'</span>) &amp;&amp; v;
-
-                <span class="hljs-keyword">return</span> v;
-            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-validateprop-propname">function validate(prop, propName)</h6>
-<hr>
-<p>  Check if the given property is valid for its criteria</p>
-<ul>
-<li><em>string <strong>propName</strong> property name</em></li>
-<li><em>string <strong>prop</strong> property value</em></li>
-</ul></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">validate</span>(<span class="hljs-params">prop, propName</span>) </span>{
-                <span class="hljs-keyword">switch</span> (propName) {
-                    <span class="hljs-keyword">case</span> <span class="hljs-string">'user'</span>:
-                    <span class="hljs-keyword">case</span> <span class="hljs-string">'client'</span>:
-                    <span class="hljs-keyword">case</span> <span class="hljs-string">'session'</span>:
-                        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(prop) === <span class="hljs-string">'undefined'</span>) {
-                            <span class="hljs-keyword">var</span> msg = <span class="hljs-string">"Please specify Veridu '"</span> + propName + <span class="hljs-string">"' on the  confguration phase of your application."</span>;
-                            $log.error(msg);
-                            <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-                        }
-                        <span class="hljs-keyword">break</span>;
+<p>  Check if the injected Provider has the required arguments
+  Currently only &#39;client&#39; is mandatory</p></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">valid</span>(<span class="hljs-params">args</span>) </span>{
+                <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span>(args[<span class="hljs-number">0</span>]) === <span class="hljs-string">'undefined'</span>) {
+                    $log.error(<span class="hljs-string">"Please specify Veridu 'client' on the  confguration phase of your application."</span>);
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
                 }
-
                 <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h6 id="function-getproviderurlprovider">function getProviderUrl(provider)</h6>
-<hr>
-<p>  Helper function to get common provider urls like twitter, facebook, paypal, linkedin...</p>
-<ul>
-<li><em>string <em>*provider</em></em> provider&#39;s name</li>
-</ul></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getProviderUrl</span>(<span class="hljs-params">provider</span>) </span>{
-                <span class="hljs-keyword">return</span> vm.cfg.URL.widget + vm.cfg.API_VERSION +<span class="hljs-string">'/provider/login/'</span>+ provider +<span class="hljs-string">'/'</span>+ vm.cfg.client +<span class="hljs-string">'/'</span>+ vm.cfg.user +<span class="hljs-string">'?session='</span>+ vm.cfg.session +<span class="hljs-string">'&amp;amp;language='</span> + vm.cfg.lang;
-            };
+            }</div></div></div><div class="segment"><div class="comments "><div class="wrapper"><h2 id="storage-helper-functions">Storage helper functions</h2>
+<p>localStorage wrappers</p></div></div><div class="code"><div class="wrapper">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">setStorageItem</span>(<span class="hljs-params">key, value</span>) </span>{
+                <span class="hljs-keyword">return</span> $<span class="hljs-built_in">window</span>.localStorage.setItem(key, <span class="hljs-built_in">JSON</span>.stringify(value));
+            }
 
-        }
+            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">removeStorageItem</span>(<span class="hljs-params">key</span>) </span>{
+                <span class="hljs-keyword">return</span> $<span class="hljs-built_in">window</span>.localStorage.removeItem(key);
+            }
 
-        service.$get = [<span class="hljs-string">'$http'</span>, <span class="hljs-string">'$log'</span>, <span class="hljs-string">'$httpParamSerializerJQLike'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VeriduFactory</span>(<span class="hljs-params">$http, $log, $httpParamSerializerJQLike</span>) </span>{
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> service(<span class="hljs-keyword">this</span>.client, <span class="hljs-keyword">this</span>.user, <span class="hljs-keyword">this</span>.session, <span class="hljs-keyword">this</span>.lang, <span class="hljs-keyword">this</span>.API_VERSION, $httpParamSerializerJQLike, $http, $log);
+            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getStorageItem</span>(<span class="hljs-params">key</span>) </span>{
+                <span class="hljs-keyword">try</span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse($<span class="hljs-built_in">window</span>.localStorage.getItem(key));
+                } <span class="hljs-keyword">catch</span>(e) {
+                    $<span class="hljs-built_in">window</span>.localStorage.removeItem(key);
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+                }
+            }
+
+        };
+
+        Veridu.$get = [<span class="hljs-string">'$http'</span>, <span class="hljs-string">'$log'</span>, <span class="hljs-string">'$httpParamSerializerJQLike'</span>, <span class="hljs-string">'$window'</span>, <span class="hljs-string">'$rootScope'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">VeriduFactory</span>(<span class="hljs-params">$http, $log, $httpParamSerializerJQLike, $window, $rootScope</span>) </span>{
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Veridu(<span class="hljs-keyword">this</span>.client, <span class="hljs-keyword">this</span>.lang, <span class="hljs-keyword">this</span>.API_VERSION, <span class="hljs-keyword">this</span>.user, <span class="hljs-keyword">this</span>.session, $httpParamSerializerJQLike, $http, $log, $<span class="hljs-built_in">window</span>, $rootScope);
         }];
 
-        <span class="hljs-keyword">return</span> service;
+        <span class="hljs-keyword">return</span> Veridu;
     });
 
     <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span> === <span class="hljs-string">'object'</span> &amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">module</span>.exports === <span class="hljs-string">'object'</span>) {
-        <span class="hljs-built_in">module</span>.exports = <span class="hljs-string">'angular-veridu-sdk'</span>;
+        <span class="hljs-built_in">module</span>.exports = <span class="hljs-string">'veridu-angularjs-sdk'</span>;
     } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> define === <span class="hljs-string">'function'</span> &amp;&amp; define.amd) {
         define([], <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
-            <span class="hljs-keyword">return</span> <span class="hljs-string">'angular-veridu-sdk'</span>;
+            <span class="hljs-keyword">return</span> <span class="hljs-string">'veridu-angularjs-sdk'</span>;
         });
     }
 }());</div></div></div></div></body></html>

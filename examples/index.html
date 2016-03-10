@@ -2,17 +2,20 @@
 <html ng-app="app" ng-controller="AppCtrl as App">
     <head>
         <meta charset="utf-8">
-        <title>API Fetch Example</title>
+        <title>Veridu AngularJS SDK</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
         <style media="screen">
-            pre.inverted {
+            pre.inverse {
                 background-color: #333;
                 color: white;
                 border-color: black;
             }
             body {
                 padding-bottom: 30em;
+            }
+            * {
+                border-radius: 0px !important;
             }
         </style>
     </head>
@@ -24,7 +27,10 @@
         <h1>Veridu SDK <small>Angular JS</small></h1>
 
         <h2>Initialization</h2>
-<pre class="inverted">
+
+        <br>
+
+<pre class="inverse">
 var app = angular.module('app', [
     'veridu.angularjs.sdk'
 ]);
@@ -42,41 +48,46 @@ function AppCtrl($scope, Veridu) {
     // this page is a use case, check its source!
 }
 </pre>
-
         <br>
-        <br>
-
-        <h2>Authenticate</h2>
+        <h2>SSO Module <small>Veridu.SSO</small></h2>
+        <hr>
+        <h4>Veridu.SSO.login <small>Sign in using a provider</small></h4>
         <div class="row">
             <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary" id="facebook" ng-click="App.auth('facebook')">Facebook</button>
+                <button type="button" class="btn  btn-block btn-primary btn-lg" id="facebook" ng-click="App.Veridu.SSO.login('facebook')">Facebook</button>
             </div>
             <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary" ng-click="App.auth('twitter')">Twitter</button>
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('twitter')">Twitter</button>
             </div>
             <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary" ng-click="App.auth('linkedin')">LinkedIn</button>
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('linkedin')">LinkedIn</button>
             </div>
             <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary" ng-click="App.auth('paypal')">Paypal</button>
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('paypal')">Paypal</button>
             </div>
         </div>
 
         <br>
+        <h4>Veridu.SSO.logout <small>Logs out</small></h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-danger btn-lg" ng-click="App.Veridu.SSO.logout()">Logout</button>
+            </div>
+        </div>
         <br>
+            <pre>{{App.Veridu | json}}</pre>
         <br>
-        <h2>Examples of API Requests</h2>
+        <h2>API module <small>Veridu.API</small></h2>
         <p>
             Endpoints: <a href="https://veridu.com/wiki/Category:Endpoint" target="_blank">https://veridu.com/wiki/Category:Endpoint</a>
         </p>
-        <br>
+        <hr>
         <div class="row">
-
             <div class="col-sm-6">
                 <div class="well">
                     <h3>Profile</h3>
-                    <h4><code>GET https://api.veridu.com/0.3/profile/$username/</code></h4>
-                    <pre class="inverted">Veridu.API.fetch('GET', 'profile/' + Veridu.cfg.user);</pre>
+                    <h4><code>GET https://api.veridu.com/{{App.Veridu.cfg.API_VERSION}}/profile/$username/</code></h4>
+                    <pre class="inverse">Veridu.API.fetch('GET', 'profile/' + Veridu.cfg.user);</pre>
                     <button class="btn btn-success" id="profile-button" type="button" ng-click="App.getProfile()">GET Profile &nbsp;&nbsp;<span class="glyphicon glyphicon-play"></span> </button>
                     <h5>Response</h5>
                     <pre style="white-space:pre-wrap">{{ App.profile | json}}</pre>
@@ -88,8 +99,8 @@ function AppCtrl($scope, Veridu) {
             <div class="col-sm-6">
                 <div class="well">
                     <h3>Facts</h3>
-                    <h4><code>GET https://api.veridu.com/0.3/facts/$username/</code></h4>
-                    <pre class="inverted">Veridu.API.fetch('GET', 'facts/' + Veridu.cfg.user);</pre>
+                    <h4><code>GET https://api.veridu.com/{{App.Veridu.cfg.API_VERSION}}/facts/$username/</code></h4>
+                    <pre class="inverse">Veridu.API.fetch('GET', 'facts/' + Veridu.cfg.user);</pre>
                     <button class="btn btn-success" type="button" ng-click="App.getFacts()">GET Facts &nbsp;&nbsp;<span class="glyphicon glyphicon-play"></span> </button>
                     <h5>Response</h5>
                     <pre style="white-space:pre-wrap">{{App.facts | json}}</pre>
@@ -99,7 +110,7 @@ function AppCtrl($scope, Veridu) {
         </div>
 
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js" charset="utf-8"></script>
-        <script src="veridu-angularjs-sdk.min.js" charset="utf-8"></script>
+        <script src="veridu-angularjs-sdk.js" charset="utf-8"></script>
 
         <script type="text/javascript">
 
@@ -108,18 +119,19 @@ function AppCtrl($scope, Veridu) {
             ]);
 
             app.config(function (VeriduProvider) {
-                // VeriduProvider.client = 'YOUR_CLIENT_ID';
-                // VeriduProvider.user = 'YOUR_USERNAME';
-                // VeriduProvider.session = 'YOUR_SESSION_ID';
+                VeriduProvider.client = 'demo';
+                VeriduProvider.API_VERSION = 'rafael';
             });
 
             app.controller('AppCtrl', AppCtrl);
             AppCtrl.$inject = ['$scope', 'Veridu'];
             function AppCtrl($scope, Veridu) {
                 var vm = this;
-                if (! Veridu.cfg) {
+                vm.Veridu = Veridu;
+
+                if (! Veridu.cfg)
                     window.alert('You need to configure your Veridu credentials on the source code of this page, Line 111, 112 and 113');
-                }
+
                 this.getProfile = function () {
                     Veridu.API.fetch('GET', 'profile/' + Veridu.cfg.user).then(
                         function success(response) {
@@ -141,11 +153,6 @@ function AppCtrl($scope, Veridu) {
                         }
                     );
                 };
-
-                this.auth = function (provider) {
-                    return window.open(Veridu.Util.getProviderUrl(provider));
-                };
-
 
                 window.SDK = Veridu;
 

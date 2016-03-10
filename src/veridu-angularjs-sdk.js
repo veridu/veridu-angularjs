@@ -10,9 +10,10 @@
             session;
 
         /**
-        *   ###### Constructor function(client, user, session, lang, API_VERSION)
+        *   # Constructor
         *   ----
-        *   - *string **client** client id *
+        *   function(client, user, session, lang, API_VERSION)
+        *   - *string **client** aka. veridu_id* **(required)**
         *   - *string **user** username*
         *   - *string **lang** language, defaults to 'en-us'*
         *   - *string **API_VERSION** API version, defaults to '0.3'*
@@ -21,34 +22,61 @@
         *   *other parameters are injected automatically*
         *
         */
-        var Veridu = function(client, user, session, lang, API_VERSION, $httpParamSerializerJQLike, $http, $log){
+        var Veridu = function(client, lang, API_VERSION, user, session, $httpParamSerializerJQLike, $http, $log, $window, $rootScope){
             var vm = this;
             vm.user = {};
             vm.Util = new Util();
+            // API Module
             vm.API = {
                 fetch: apiFetch
             };
+            // SSO Module
+            vm.SSO = {
+                login: login,
+                logout: logout
+            };
+
+            // #### Storage helper
+            var Storage = {
+                setItem: setStorageItem,
+                removeItem: removeStorageItem,
+                getItem: getStorageItem
+            };
+
+            init();
 
             if (! valid(arguments))
                 return this;
 
-            vm.cfg = {
-                user: user,
-                client: client,
-                session: session,
-                lang: lang || 'en-us',
-                get API_VERSION() { return API_VERSION  || '0.3'; },
-                get URL() {
-                    return {
-                        api: 'https://api.veridu.com/',
-                        widget: 'https://widget.veridu.com/',
-                        assets: 'https://assets.veridu.com/'
+            function init() {
+                vm.cfg = {
+                    user: user,
+                    client: client,
+                    session: session,
+                    lang: lang || 'en-us',
+                    get API_VERSION() { return API_VERSION || '0.3'; },
+                    get URL() {
+                        return {
+                            api: 'https://api.veridu.com/',
+                            widget: 'https://widget.veridu.com',
+                            assets: 'https://assets.veridu.com/'
+                        };
                     }
-                }
-            };
+                };
+
+                ssoPopulate(Storage.getItem('veriduSSOData'));
+
+                // listens for SSO Logins
+                $window.addEventListener('message', function (evt) {
+                    if (evt.origin == vm.cfg.URL.widget) {
+                        ssoPopulate(evt.data);
+                    }
+                });
+            }
 
             /**
-            *   ###### function apiFetch(method, resource, parameters)
+            *   # API Module functions
+            *   ###### function API.fetch(method, resource, parameters)
             *   ----
             *   Fetches the API
             *   - *string **method**  'GET', 'PUT', 'POST', 'DELETE'*
@@ -79,21 +107,83 @@
                     params: parameters || {},
                     paramSerializer: '$httpParamSerializerJQLike'
                 });
-
-
-            };
+            }
 
             /**
-            *   ###### function Util
+            *   # SSO Module functions
+            *   ###### function SSO.login(provider)
             *   ----
-            *   Helper functions
+            *   Logins with given provider, emits 'veriduSSOLogin' event when ssoPopulate is called
+            *   - *string **provider** provider's name*
+            */
+            function login(provider) {
+                if (vm.cfg.session) {
+                    $log.error('User already signed! Logout if you want to access via another SSO provider');
+                    return false;
+                }
+
+                window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session=&nonce=nonce&redirect=' + $window.location.toString(), 'sso', 'width=500,height=500');
+            }
+
+            /**
+            *   ###### function SSO.logout()
+            *   ----
+            *   Logs out and emits logout event
+            */
+            function logout() {
+                Storage.removeItem('veriduSSOData');
+                $rootScope.$emit('veriduSSOLogout', {cfg: vm.cfg, user: vm.user});
+
+                delete vm.cfg.session;
+                delete vm.cfg.user;
+                delete vm.SSO.provider;
+                delete vm.user.name;
+                delete vm.user.email;
+
+                if (! $rootScope.$$phase)
+                    $rootScope.$apply();
+
+            }
+
+            /**
+            *   ###### function ssoPopulate(data)
+            *   ----
+            *   Populates the Provider, emits 'veriduSSOLogin' event
+            *
+            */
+            function ssoPopulate(data) {
+                if (! data)
+                    return false;
+                try {
+                    data = typeof data == 'string' ? JSON.parse(data) : data;
+                    vm.cfg.session = data.veridu_session;
+                    vm.cfg.user = data.veridu_id;
+                    vm.SSO.provider = data.veridu_provider;
+                    vm.user.name = data.veridu_name;
+                    vm.user.email = data.veridu_email;
+                    Storage.setItem('veriduSSOData', data);
+                    // apllies only if an apply is not ongoing
+                    if (! $rootScope.$$phase)
+                        $rootScope.$apply();
+                    // emits event
+                    $rootScope.$emit('veriduSSOLogin', data);
+
+                } catch (e) {
+                    $log.error('Error parsing API response');
+                    return false;
+                }
+            }
+
+            /**
+            *   # Util
+            *   ----
+            *   Url helper functions
             */
             function Util () {
                 this.buildUrl = buildUrl;
                 this.apiUrl = apiUrl;
                 this.widgetUrl = widgetUrl;
                 this.assetsUrl = assetsUrl;
-                this.getProviderUrl = getProviderUrl;
 
                 /**
                 *   ###### Url Helpers(resource, params)
@@ -110,7 +200,7 @@
                     return buildUrl(vm.cfg.URL.assets + vm.cfg.API_VERSION + '/' + resource, params);
                 }
                 function widgetUrl(resource, params) {
-                    return buildUrl(vm.cfg.URL.widget + vm.cfg.API_VERSION + '/' + resource + '/', params);
+                    return buildUrl(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION + '/' + resource + '/', params);
                 }
 
                 function buildUrl(url, params) {
@@ -132,57 +222,40 @@
             *   ###### function valid(args)
             *   ----
             *   Check if the injected Provider has the required arguments
-            *   - *arguments **args** All the arguments that the provider has been called with*
+            *   Currently only 'client' is mandatory
             */
             function valid(args) {
-                var v = true;
-
-                v = validate(args[0], 'client') && v;
-                v = validate(args[1], 'user') && v;
-                v = validate(args[2], 'session') && v;
-                v = validate(args[3], 'lang') && v;
-                v = validate(args[4], 'API_VERSION') && v;
-
-                return v;
-            }
-
-            /**
-            *   ###### function validate(prop, propName)
-            *   ----
-            *   Check if the given property is valid for its criteria
-            *   - *string **propName** property name*
-            *   - *string **prop** property value*
-            */
-            function validate(prop, propName) {
-                switch (propName) {
-                    case 'user':
-                    case 'client':
-                    case 'session':
-                        if (typeof(prop) === 'undefined') {
-                            var msg = "Please specify Veridu '" + propName + "' on the  confguration phase of your application.";
-                            $log.error(msg);
-                            return false;
-                        }
-                        break;
+                if (typeof(args[0]) === 'undefined') {
+                    $log.error("Please specify Veridu 'client' on the  confguration phase of your application.");
+                    return false;
                 }
-
                 return true;
             }
 
-            /**
-            *   ###### function getProviderUrl(provider)
-            *   ----
-            *   Helper function to get common provider urls like twitter, facebook, paypal, linkedin...
-            *   - *string **provider** provider's name
-            */
-            function getProviderUrl(provider) {
-                return vm.cfg.URL.widget + vm.cfg.API_VERSION +'/provider/login/'+ provider +'/'+ vm.cfg.client +'/'+ vm.cfg.user +'?session='+ vm.cfg.session +'&amp;language=' + vm.cfg.lang;
-            };
+            // ## Storage helper functions
+            // localStorage wrappers
 
-        }
+            function setStorageItem(key, value) {
+                return $window.localStorage.setItem(key, JSON.stringify(value));
+            }
 
-        Veridu.$get = ['$http', '$log', '$httpParamSerializerJQLike', function VeriduFactory($http, $log, $httpParamSerializerJQLike) {
-            return new Veridu(this.client, this.user, this.session, this.lang, this.API_VERSION, $httpParamSerializerJQLike, $http, $log);
+            function removeStorageItem(key) {
+                return $window.localStorage.removeItem(key);
+            }
+
+            function getStorageItem(key) {
+                try{
+                    return JSON.parse($window.localStorage.getItem(key));
+                } catch(e) {
+                    $window.localStorage.removeItem(key);
+                    return undefined;
+                }
+            }
+
+        };
+
+        Veridu.$get = ['$http', '$log', '$httpParamSerializerJQLike', '$window', '$rootScope', function VeriduFactory($http, $log, $httpParamSerializerJQLike, $window, $rootScope) {
+            return new Veridu(this.client, this.lang, this.API_VERSION, this.user, this.session, $httpParamSerializerJQLike, $http, $log, $window, $rootScope);
         }];
 
         return Veridu;
