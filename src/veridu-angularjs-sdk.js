@@ -123,7 +123,7 @@
                     return false;
                 }
 
-                window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session=&nonce=nonce&redirect=' + $window.location.toString(), '_system');
+                window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session=&nonce=nonce&redirect=' + $window.location.toString(), '_blank');
             }
 
             /**
