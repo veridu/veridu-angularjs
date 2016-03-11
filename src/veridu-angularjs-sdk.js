@@ -64,7 +64,6 @@
                     }
                 };
 
-                // populate if the session is already stored
                 ssoPopulate(Storage.getItem('veriduSSOData'));
 
                 // listens for SSO Logins
@@ -123,7 +122,7 @@
                     return false;
                 }
 
-                window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session=&nonce=nonce&redirect=' + $window.location.toString(), '_blank',"width=500,height=500");
+                window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session=&nonce=nonce&redirect=' + $window.location.toString(), 'sso', 'width=500,height=500');
             }
 
             /**
@@ -163,11 +162,9 @@
                     vm.user.name = data.veridu_name;
                     vm.user.email = data.veridu_email;
                     Storage.setItem('veriduSSOData', data);
-
                     // apllies only if an apply is not ongoing
                     if (! $rootScope.$$phase)
                         $rootScope.$apply();
-
                     // emits event
                     $rootScope.$emit('veriduSSOLogin', data);
 
