@@ -49,39 +49,36 @@ function AppCtrl($scope, Veridu) {
 }
 </pre>
         <br>
-        <h2>SSO Module <small>Veridu.SSO</small></h2>
-        <hr>
-        <h4>Veridu.SSO.login <small>Sign in using a provider</small></h4>
-        <div class="row">
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary btn-lg" id="facebook" ng-click="App.Veridu.SSO.login('facebook')">Facebook</button>
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('twitter')">Twitter</button>
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('linkedin')">LinkedIn</button>
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('paypal')">Paypal</button>
-            </div>
-        </div>
-
-        <br>
-        <h4>Veridu.SSO.logout <small>Logs out</small></h4>
-        <div class="row">
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-danger btn-lg" ng-click="App.Veridu.SSO.logout()">Logout</button>
-            </div>
-        </div>
-        <br>
-            <pre>{{App.Veridu | json}}</pre>
-        <br>
         <h2>API module <small>Veridu.API</small></h2>
         <p>
             Endpoints: <a href="https://veridu.com/wiki/Category:Endpoint" target="_blank">https://veridu.com/wiki/Category:Endpoint</a>
         </p>
         <hr>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" id="facebook" ng-click="App.Veridu.Widget.login('facebook')">Facebook</button>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.Widget.login('twitter')">Twitter</button>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.Widget.login('paypal')">Paypal</button>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.Widget.login('linkedin')">LinkedIn</button>
+            </div>
+        </div>
+
+        <br>
+        <h4>Veridu.logout <small>Logs out</small></h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-danger btn-lg" ng-click="App.Veridu.logout()">Logout</button>
+            </div>
+        </div>
+
+        <br>
+
         <div class="row">
             <div class="col-sm-6">
                 <div class="well">
@@ -109,6 +106,29 @@ function AppCtrl($scope, Veridu) {
 
         </div>
 
+        <h2>SSO Module <small>Veridu.SSO</small></h2>
+        <hr>
+        <h4>Veridu.SSO.login <small>Sign in using a provider</small></h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" id="facebook" ng-click="App.Veridu.SSO.login('facebook')">Facebook</button>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('twitter')">Twitter</button>
+            </div>
+        </div>
+
+        <br>
+        <h4>Veridu.logout <small>Logs out</small></h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-danger btn-lg" ng-click="App.Veridu.logout()">Logout</button>
+            </div>
+        </div>
+        <br>
+            <pre>{{App.Veridu | json}}</pre>
+        <br>
+
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js" charset="utf-8"></script>
         <script src="veridu-angularjs-sdk.js" charset="utf-8"></script>
 
@@ -120,7 +140,7 @@ function AppCtrl($scope, Veridu) {
 
             app.config(function (VeriduProvider) {
                 VeriduProvider.client = 'demo';
-                VeriduProvider.API_VERSION = '0.3';
+                VeriduProvider.API_VERSION = 'rafael';
             });
 
             app.controller('AppCtrl', AppCtrl);
