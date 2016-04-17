@@ -50,6 +50,7 @@
                     };
                 }
             };
+
             initialize();
 
             /**
@@ -151,6 +152,9 @@
                         vm.SSO.provider = data.veridu_provider;
                         vm.user.name = data.veridu_name;
                         vm.user.email = data.veridu_email;
+                        vm.cfg.session = data.veridu_session;
+                        vm.cfg.user = data.veridu_id;
+
                         Storage.setItem('sso', data);
                         // apllies only if an apply is not ongoing
                         if (! $rootScope.$$phase)
@@ -176,7 +180,7 @@
                         $log.error('User already signed! Logout if you want to access via another SSO provider');
                         // return false;
                     }
-                    window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session='+ vm.cfg.session +'&nonce=nonce&redirect=' + $window.location.toString(), 'sso', 'width=500,height=500');
+                    window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session='+ (vm.cfg.session || '') +'&nonce=nonce&redirect=' + $window.location.toString(), 'sso', 'width=500,height=500');
                 }
 
             }
