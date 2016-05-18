@@ -61,7 +61,7 @@ function AppCtrl(Veridu) {
         );
     }
 
-    // Facebook SSO
+    // SSO Login
     function login = Veridu.SSO.login;
 
 }
