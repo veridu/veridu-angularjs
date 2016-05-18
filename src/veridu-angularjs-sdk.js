@@ -180,17 +180,27 @@
                         $log.error('User already signed! Logout if you want to access via another SSO provider');
                         // return false;
                     }
-                    window.open(vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session='+ (vm.cfg.session || '') +'&nonce=nonce&redirect=' + $window.location.toString(), 'sso', 'width=500,height=500');
+                    var url = vm.cfg.URL.widget + '/' + vm.cfg.API_VERSION +'/sso/login/'+ provider +'/'+ vm.cfg.client +'?language=' + vm.cfg.lang + '&mobile=true&session='+ (vm.cfg.session || '') +'&nonce=nonce&redirect=' + $window.location.toString();
+                    showWindow(url, '_system');
                 }
 
             }
+
+            function showWindow(url, target) {
+                target = target || '_blank';
+                var top = Math.max((screen.height - 600) / 2, 0);
+        		var left = Math.max((screen.width  - 800) / 2, 0);
+                var winCfg = 'status=0,toolbar=0,location=1,resizable=0,scrollbars=0,width=800,height=600,top='+ top + ',left=' +left;
+        		return window.open(url, target, winCfg);
+        	}
 
             // # Widget Module
             function Widget() {
                 this.login = login;
 
                 function login(provider) {
-                    window.open('https://widget.veridu.com/'+ vm.cfg.API_VERSION + '/provider/login/'+ provider +'/'+ vm.cfg.client +'/'+ vm.cfg.user +'?session='+ vm.cfg.session +'&amp;language=en-us', '_system');
+                    var url = 'https://widget.veridu.com/'+ vm.cfg.API_VERSION + '/provider/login/'+ provider +'/'+ vm.cfg.client +'/'+ vm.cfg.user +'?session='+ vm.cfg.session +'&amp;language=en-us';
+                    showWindow(url, '_system');
                 }
             }
 
@@ -208,24 +218,6 @@
                         return;
                     }
                 }
-
-                vm.API.fetch('POST', 'session/write',{
-                        client: vm.cfg.client,
-                        nonce: vm.nonce,
-                        mobile: true,
-                        timestamp: new Date() * 1
-                    })
-                    .then(
-                        function success(response) {
-                            if (vm.nonce == response.data.nonce) {
-                                populate(response.data, true);
-                            } else
-                                $log.error('Probably a MITMA - Man in the middle Atack');
-                        },
-                        function error (response) {
-                            $log.error(response)
-                        }
-                    );
             }
 
             function populate(data, store) {

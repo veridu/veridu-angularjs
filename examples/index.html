@@ -36,21 +36,53 @@ var app = angular.module('app', [
 ]);
 
 app.config(function (VeriduProvider) {
-    VeriduProvider.client = 'YOUR_CLIENT_ID';
+    VeriduProvider.client = 'YOUR_API_KEY';
 });
 
 AppCtrl.$inject = ['$scope', 'Veridu'];
 function AppCtrl($scope, Veridu) {
-
+    var vm = this;
     // use it
+    vm.login = Veridu.SSO.login;
+
     // this page is a use case, check its source!
 }
+
+// on html
+&lt;button ng-click="App.login('facebook')" &gt;Login with Facebook&lt;button&gt;
 </pre>
         <br>
+        <h2>SSO Module <small>Veridu.SSO</small></h2>
+        <hr>
+        <h4>Veridu.SSO.login <small>Sign in using a provider</small></h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" id="facebook" ng-click="App.login('facebook')">Facebook</button>
+            </div>
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.login('google')">Google</button>
+            </div>
+        </div>
+
+        <br>
+        <h4>Veridu.logout <small>Logs out</small></h4>
+        <div class="row">
+            <div class="col-sm-3">
+                <button type="button" class="btn  btn-block btn-danger btn-lg" ng-click="App.Veridu.logout()">Logout</button>
+            </div>
+        </div>
+        <br>
+            <pre>{{App.Veridu | json}}</pre>
+        <br>
+
         <h2>API module <small>Veridu.API</small></h2>
         <p>
             Endpoints: <a href="https://veridu.com/wiki/Category:Endpoint" target="_blank">https://veridu.com/wiki/Category:Endpoint</a>
         </p>
+        <div class="alert alert-warning">
+            <strong>Attention</strong> You may only query the API (or use this Module) if you have a valid Session and a valid Username. <br>
+            You can either generate using our  <a href="https://veridu.com/wiki/Session_Resource" target="_blank">Session</a> and <a href="https://veridu.com/wiki/User_Resource" target="_blank">User</a> endpoints or by making a <a href="#sso-login">SSO Login</a> they will be generated for you, as seen above.
+        </div>
         <hr>
         <div class="row">
             <div class="col-sm-3">
@@ -103,30 +135,6 @@ function AppCtrl($scope, Veridu) {
             </div>
 
         </div>
-
-        <h2>SSO Module <small>Veridu.SSO</small></h2>
-        <hr>
-        <h4>Veridu.SSO.login <small>Sign in using a provider</small></h4>
-        <div class="row">
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary btn-lg" id="facebook" ng-click="App.Veridu.SSO.login('facebook')">Facebook</button>
-            </div>
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-primary btn-lg" ng-click="App.Veridu.SSO.login('twitter')">Twitter</button>
-            </div>
-        </div>
-
-        <br>
-        <h4>Veridu.logout <small>Logs out</small></h4>
-        <div class="row">
-            <div class="col-sm-3">
-                <button type="button" class="btn  btn-block btn-danger btn-lg" ng-click="App.Veridu.logout()">Logout</button>
-            </div>
-        </div>
-        <br>
-            <pre>{{App.Veridu | json}}</pre>
-        <br>
-
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular.min.js" charset="utf-8"></script>
         <script src="veridu-angularjs-sdk.js" charset="utf-8"></script>
 
@@ -146,6 +154,13 @@ function AppCtrl($scope, Veridu) {
             function AppCtrl($scope, Veridu) {
                 var vm = this;
                 vm.Veridu = Veridu;
+                vm.login = function (provider) {
+                    if (Veridu.cfg.client === 'YOUR_API_KEY') {
+                        window.alert('Please, configure your API key in order to have this example working.');
+                        return;
+                    }
+                    Veridu.SSO.login(provider);
+                };
 
                 if (! Veridu.cfg)
                     window.alert('You need to configure your Veridu credentials on the source code of this page, Line 111, 112 and 113');

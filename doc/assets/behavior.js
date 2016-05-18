@@ -61,13 +61,21 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 {
                   "type": "heading",
                   "data": {
-                    "level": 4,
-                    "title": "Storage helper",
-                    "slug": "storage-helper"
+                    "level": 6,
+                    "title": "function logout",
+                    "slug": "function-logout"
                   },
-                  "depth": 4
+                  "depth": 6
                 }
               ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "API Module",
+                "slug": "api-module"
+              },
+              "depth": 1
             }, {
               "type": "heading",
               "data": {
@@ -91,20 +99,12 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
               "type": "heading",
               "data": {
                 "level": 1,
-                "title": "SSO Module functions",
-                "slug": "sso-module-functions"
+                "title": "SSO Module",
+                "slug": "sso-module"
               },
               "depth": 1,
               "children": [
                 {
-                  "type": "heading",
-                  "data": {
-                    "level": 6,
-                    "title": "function SSO.login(provider)",
-                    "slug": "function-ssologinprovider"
-                  },
-                  "depth": 6
-                }, {
                   "type": "heading",
                   "data": {
                     "level": 6,
@@ -122,6 +122,33 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                   "depth": 6
                 }
               ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "SSO Module functions",
+                "slug": "sso-module-functions"
+              },
+              "depth": 1,
+              "children": [
+                {
+                  "type": "heading",
+                  "data": {
+                    "level": 6,
+                    "title": "function SSO.login(provider)",
+                    "slug": "function-ssologinprovider"
+                  },
+                  "depth": 6
+                }
+              ]
+            }, {
+              "type": "heading",
+              "data": {
+                "level": 1,
+                "title": "Widget Module",
+                "slug": "widget-module"
+              },
+              "depth": 1
             }, {
               "type": "heading",
               "data": {
@@ -150,11 +177,11 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
                 }, {
                   "type": "heading",
                   "data": {
-                    "level": 2,
-                    "title": "Storage helper functions",
-                    "slug": "storage-helper-functions"
+                    "level": 4,
+                    "title": "Storage helper",
+                    "slug": "storage-helper"
                   },
-                  "depth": 2
+                  "depth": 4
                 }
               ]
             }
