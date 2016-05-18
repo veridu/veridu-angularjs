@@ -62,15 +62,13 @@ function AppCtrl(Veridu) {
     }
 
     // Facebook SSO
-    function login() {
-        return Veridu.SSO.login('facebook');
-    }
+    function login = Veridu.SSO.login;
 
 }
 ```
 Facebook SSO:
 ````html
-    <button type="button" ng-click="App.login()"></button>
+    <button type="button" ng-click="App.login('facebook')">Login with Facebook</button>
 ````
 
 Examples
